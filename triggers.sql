@@ -44,6 +44,18 @@ END; $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER tgLin_Vei()
-BEFORE INSERT ON veiculo
+AFTER INSERT ON veiculo
 FOR EACH ROW
 EXECUTE PROCEDURE Lin_Veiculo();
+
+CREATE OR REPLACE FUNCTION Transf()
+RETURNS TRIGGER AS $$
+BEGIN 
+    NEW.idCadastro, NEW.nome, OLD.renavam, NEW.dataVenda, NEW.dataCompra
+END; $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_Transf()
+BEFORE INSERT ON transferencia
+FOR EACH ROW
+EXECUTE PROCEDURE Transf();
