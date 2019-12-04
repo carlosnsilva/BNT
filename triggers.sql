@@ -32,3 +32,18 @@ CREATE TRIGGER tgInsertMulta
 BEFORE INSERT ON multa
 FOR EACH ROW
 EXECUTE PROCEDURE insertMulta();
+
+-- Trigger Licenciamento-Veículo
+
+CREATE OR REPLACE FUNCTION Lin_Veiculo()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.placa := gerar_licenciamento(OLD.renavam);
+    RETURN NEW;
+END; $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tgLin_Vei()
+BEFORE INSERT ON veiculo
+FOR EACH ROW
+EXECUTE PROCEDURE Lin_Veiculo();
